@@ -1,0 +1,37 @@
+#!/usr/local/bin/bash
+
+# MySQL server details
+MYSQL_HOST="192.168.1.192" 
+MYSQL_USER="script"
+MYSQL_PASS="****" 
+MYSQL_DB="smart"
+
+# Get a list of all disk devices
+disks=$(sysctl -n kern.disks)
+
+# Iterate over each disk
+for disk in $disks; do
+    # Run smartctl and capture the output
+    smart_output=$(smartctl -x /dev/$disk)
+    
+    # Extract parameters from smartctl output
+
+    # Extract parameters from smartctl output
+    dev_model=$(echo "$smart_output" | grep "Device Model" | awk '{print $3}' | xargs)
+    sn=$(echo "$smart_output" | grep "Serial" | awk '{print $3}' | xargs) 
+    time=$(date "+%Y-%m-%d %H:%M:%S" | xargs)
+    Start_Stop_Count=$(echo "$smart_output" | grep "Start_Stop_Count" | awk '{print $8}' | xargs) 
+    Reallocated_Sector_Ct=$(echo "$smart_output" | grep "Reallocated_Sector_Ct" | awk '{print $8}' | xargs) 
+    #Seek_Error_Rate=$(echo "$smart_output" | grep "Seek_Error_Rate" | awk '{print $8}' | xargs) 
+    Power_On_Hours=$(echo "$smart_output" | grep "Power_On_Hours" | awk '{print $8}' | xargs) 
+    Power_Cycle_Count=$(echo "$smart_output" | grep "Power_Cycle_Count" | awk '{print $8}' | xargs) 
+    Load_Cycle_Count=$(echo "$smart_output" | grep "Load_Cycle_Count" | awk '{print $8}' | xargs)
+    Offline_Uncorrectable=$(echo "$smart_output" | grep "Offline_Uncorrectable" | awk '{print $8}' | xargs)
+    Current_Pending_Sector=$(echo "$smart_output" | grep "Current_Pending_Sector" | awk '{print $8}' | xargs)
+    Multi_Zone_Error_Rate=$(echo "$smart_output" | grep "Current_Pending_Sector" | awk '{print $8}' | xargs) 
+    Logical_Sectors_Written=$(echo "$smart_output" | grep "0x01  0x018" | awk '{print $4}' | xargs) 
+    Logical_Sectors_Read=$(echo "$smart_output" | grep "0x01  0x028" | awk '{print $4}' | xargs)
+ 
+    # Insert data into MySQL table
+    mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASS -D $MYSQL_DB -e "INSERT INTO SMART (Model, SN, Time, Start_Stop_Count, Reallocated_Sector_Ct, Power_On_Hours, Power_Cycle_Count, Load_Cycle_Count, Offline_Uncorrectable, Current_Pending_Sector, Multi_Zone_Error_Rate, Logical_Sectors_Written, Logical_Sectors_Read, Iface) VALUES ('$dev_model', '$sn', '$time', '$(($Start_Stop_Count))', '$(($Reallocated_Sector_Ct))', '$(($Power_On_Hours))', '$(($Power_Cycle_Count))', '$(($Load_Cycle_Count))', '$(($Offline_Uncorrectable))', '$(($Current_Pending_Sector))', '$(($Multi_Zone_Error_Rate))', '$(($Logical_Sectors_Written))', '$(($Logical_Sectors_Read))', '$disk');"
+done
