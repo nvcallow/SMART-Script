@@ -12,7 +12,7 @@ disks=$(sysctl -n kern.disks)
 # Function to remove leading zeros and convert to integer
 remove_leading_zeros() {
     local string="$1"
-    
+    echo $string
     # Ensure the string contains only digits
     if [[ $string =~ ^[0-9]+$ ]]; then
         # Remove leading zeros using parameter expansion
