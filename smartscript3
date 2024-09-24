@@ -11,25 +11,17 @@ disks=$(sysctl -n kern.disks)
 
 # Function to remove leading zeros and convert to integer
 remove_leading_zeros() {
-    local string="$1"
-    echo $string
-    # Ensure the string contains only digits
-    if [[ $string =~ ^[0-9]+$ ]]; then
-        # Remove leading zeros using parameter expansion
-        local number="${string##+(0)}"
-        
-        # Handle the case where the string is all zeros
-        if [[ -z $number ]]; then
-            number=0
-        fi
-        
-        # Convert to integer
-        local integer=$((10#$number))
-        
-        echo "$integer"
+    local input_string="$1"
+    
+    # Remove leading zeros
+    input_string="${input_string#"${input_string%%[!0]*}"}"
+    
+    # If the string is empty after removing leading zeros, it was all zeros
+    if [ -z "$input_string" ]; then
+        echo 0
     else
-        echo "Error: The string contains non-numeric characters." >&2
-        return 1
+        # Convert to integer (this will automatically remove trailing zeros)
+        echo "$((10#$input_string))"
     fi
 }
 
