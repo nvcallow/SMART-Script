@@ -26,7 +26,6 @@ remove_leading_zeros() {
 }
 
 
-
 # Iterate over each disk
 for disk in $disks; do
     # Run smartctl and capture the output
@@ -44,139 +43,137 @@ for disk in $disks; do
     user_capacity_bytes=$(echo "$smart_output" | grep "User Capacity" | awk 'NR==1 {print $3}' | xargs) 
     sector_sizes=$(echo "$smart_output" | grep "Sector Sizes:" | awk 'NR==1 {print $3}' | xargs) 
     
-    echo $model_family
-    echo $dev_model
-    echo $sn
-    echo $time
-    echo $overall_health_self_assesment
-    echo $user_capacity_bytes
-    echo $sector_sizes
+    #echo $model_family
+    #echo $dev_model
+    #echo $sn
+    #echo $time
+    #echo $overall_health_self_assesment
+    #echo $user_capacity_bytes
+    #echo $sector_sizes
 
     echo "Stage 2"
 
     # Simple Smart Outputs
     string=$(echo "$smart_output" | grep "Raw_Read_Error_Rate" | awk 'NR==1 {print $4}' | xargs) 
     Raw_Read_Error_Rate_Value=$(remove_leading_zeros "$string")
-    echo $Raw_Read_Error_Rate_Value
-
+    #echo $Raw_Read_Error_Rate_Value
+    
     string=$(echo "$smart_output" | grep "Start_Stop_Count" | awk '{print $8}' | xargs) 
     Start_Stop_Count=$(remove_leading_zeros "$string")
-    echo $Start_Stop_Count
+    #echo $Start_Stop_Count
 
     string=$(echo "$smart_output" | grep "Reallocated_Sector_Ct" | awk '{print $8}' | xargs) 
     Reallocated_Sector_Ct=$(remove_leading_zeros "$string")
-    echo $Reallocated_Sector_Ct
+    #echo $Reallocated_Sector_Ct
 
     string=$(echo "$smart_output" | grep "Seek_Error_Rate" | awk '{print $4}' | xargs) 
     Seek_Error_Rate_Value=$(remove_leading_zeros "$string")
-    echo $Seek_Error_Rate_Value
+    #echo $Seek_Error_Rate_Value
     
     string=$(echo "$smart_output" | grep "Power_On_Hours" | awk '{print $8}' | xargs) 
     Power_On_Hours=$(remove_leading_zeros "$string")
-    echo $Power_On_Hours
+    #echo $Power_On_Hours
 
     string=$(echo "$smart_output" | grep "Power_Cycle_Count" | awk '{print $8}' | xargs) 
     Power_Cycle_Count=$(remove_leading_zeros "$string")
-    echo $Power_Cycle_Count
+    #echo $Power_Cycle_Count
 
     string=$(echo "$smart_output" | grep "Load_Cycle_Count" | awk '{print $8}' | xargs)
     Load_Cycle_Count=$(remove_leading_zeros "$string")
-    echo $Load_Cycle_Count
+    #echo $Load_Cycle_Count
 
     string=$(echo "$smart_output" | grep "Head_Health" | awk '{print $4}' | xargs)
     Head_Health_Value=$(remove_leading_zeros "$string")
-    echo $Head_Health_Value
+    #echo $Head_Health_Value
 
     string=$(echo "$smart_output" | grep "Reported_Uncorrect" | awk '{print $8}' | xargs)
     Reported_Uncorrect=$(remove_leading_zeros "$string")
-    echo $Reported_Uncorrect
+    #echo $Reported_Uncorrect
 
     string=$(echo "$smart_output" | grep "Temperature_Celsius" | awk '{print $8}' | xargs)
     Temperature_Celsius=$(remove_leading_zeros "$string")
-    echo $Temperature_Celsius
+    #echo $Temperature_Celsius
 
     string=$(echo "$smart_output" | grep "Current_Pending_Sector" | awk '{print $8}' | xargs)
     Current_Pending_Sector=$(remove_leading_zeros "$string")
-    echo $Current_Pending_Sector
+    #echo $Current_Pending_Sector
 
     string=$(echo "$smart_output" | grep "Offline_Uncorrectable" | awk '{print $8}' | xargs)
     Offline_Uncorrectable=$(remove_leading_zeros "$string")
-    echo $Offline_Uncorrectable
+    #echo $Offline_Uncorrectable
 
     string=$(echo "$smart_output" | grep "Pressure_Limit" | awk '{print $4}' | xargs)
     Pressure_Limit=$(remove_leading_zeros "$string")
-    echo $Pressure_Limit
+    #echo $Pressure_Limit
 
     string=$(echo "$smart_output" | grep "Multi_Zone_Error_Rate" | awk '{print $8}' | xargs) 
     Multi_Zone_Error_Rate=$(remove_leading_zeros "$string")
-    echo $Multi_Zone_Error_Rate
+    #echo $Multi_Zone_Error_Rate
 
     string=$(echo "$smart_output" | grep "G-Sense_Error_Rate" | awk '{print $4}' | xargs)
     G_Sense_Error_Rate_value=$(remove_leading_zeros "$string")
-    echo $G_Sense_Error_Rate_value
+    #echo $G_Sense_Error_Rate_value
 
     string=$(echo "$smart_output" | grep "Total_LBAs_Written" | awk 'NR==1 {print $8}' | xargs) 
     Total_LBAs_Written=$(remove_leading_zeros "$string")
-    echo $Total_LBAs_Written
+    #echo $Total_LBAs_Written
 
     string=$(echo "$smart_output" | grep "Total_LBAs_Read" | awk 'NR==1 {print $8}' | xargs) 
     Total_LBAs_Read=$(remove_leading_zeros "$string")
-    echo $Total_LBAs_Read
+    #echo $Total_LBAs_Read
 
     string=$(echo "$smart_output" | grep "Disk_Shift" | awk 'NR==1 {print $4}' | xargs) 
     Disk_Shift=$(remove_leading_zeros "$string")
-    echo $Disk_Shift
+    #echo $Disk_Shift
 
     string=$(echo "$smart_output" | grep "Unused_Rsvd_Blk_Cnt_Tot" | awk 'NR==1 {print $8}' | xargs) 
     Unused_Rsvd_Blk_Cnt_Tot=$(remove_leading_zeros "$string")
-    echo $Unused_Rsvd_Blk_Cnt_Tot
+    #echo $Unused_Rsvd_Blk_Cnt_Tot
 
     string=$(echo "$smart_output" | grep "231" | awk 'NR==1 {print $4}' | xargs) 
     Life_Left_Value=$(remove_leading_zeros "$string")
-    echo $Life_Left_Value
+    #echo $Life_Left_Value
 
     #Extended General Statistics
     echo "Stage 3"
     string=$(echo "$smart_output" | grep "0x01  0x018" | awk 'NR==1 {print $4}' | xargs) 
     Logical_Sectors_Written=$(remove_leading_zeros "$string")
-    echo $Logical_Sectors_Written
+    #echo $Logical_Sectors_Written
 
     string=$(echo "$smart_output" | grep "0x01  0x028" | awk 'NR==1 {print $4}' | xargs)
     Logical_Sectors_Read=$(remove_leading_zeros "$string")
-    echo $Logical_Sectors_Read
+    #echo $Logical_Sectors_Read
 
     string=$(echo "$smart_output" | grep "Head Flying Hours" | awk 'NR==1 {print $4}' | xargs)
     Head_Flying_Hours=$(remove_leading_zeros "$string")
-    echo $Head_Flying_Hours
+    #echo $Head_Flying_Hours
 
     string=$(echo "$smart_output" | grep "Head Load Events" | awk 'NR==1 {print $4}' | xargs)
     Head_Load_Events=$(remove_leading_zeros "$string")
-    echo $Head_Load_Events
+    #echo $Head_Load_Events
 
     string=$(echo "$smart_output" | grep "Number of Reallocated Logical Sectors" | awk 'NR==1 {print $4}' | xargs)
     Num_Reallocated_Logical_Sectors=$(remove_leading_zeros "$string")
-    echo $Num_Reallocated_Logical_Sectors
+    #echo $Num_Reallocated_Logical_Sectors
 
     string=$(echo "$smart_output" | grep "Number of Reported Uncorrectable Errors" | awk 'NR==1 {print $4}' | xargs)
     Num_Reported_Uncorrectable_Errors=$(remove_leading_zeros "$string")
-    echo $Num_Reported_Uncorrectable_Errors
+    #echo $Num_Reported_Uncorrectable_Errors
 
     string=$(echo "$smart_output" | grep "Pending Error Count" | awk 'NR==1 {print $4}' | xargs)
     Pending_Error_Count=$(remove_leading_zeros "$string")
-    echo $Pending_Error_Count
+    #echo $Pending_Error_Count
 
     string=$(echo "$smart_output" | grep "Read Recovery Attempts" | awk 'NR==1 {print $4}' | xargs)
     Read_Recovery_Attempts=$(remove_leading_zeros "$string")
-    echo $Read_Recovery_Attempts
+    #echo $Read_Recovery_Attempts
 
     string=$(echo "$smart_output" | grep "Percentage Used Endurance Indicator" | awk 'NR==1 {print $4}' | xargs)
     Percentage_Used_Endurance_Indicator=$(remove_leading_zeros "$string")
-    echo $Percentage_Used_Endurance_Indicator
+    #echo $Percentage_Used_Endurance_Indicator
 
     # Insert data into MySQL table
     echo "Stage Insert"
-    #echo $model_family $dev_model $sn $time $overall_health_self_assesment $user_capacity_bytes $sector_sizes $(($Raw_Read_Error_Rate_Value)) $(($Start_Stop_Count)) $(($Reallocated_Sector_Ct)) $(($Seek_Error_Rate_Value)) $(($Power_On_Hours)) $(($Power_Cycle_Count)) $(($Load_Cycle_Count)) $(($Head_Health_Value)) $(($Reported_Uncorrect)) $(($Temperature_Celsius)) $(($Offline_Uncorrectable)) $(($Current_Pending_Sector)) $(($Pressure_Limit)) $(($Multi_Zone_Error_Rate)) $(($G_Sense_Error_Rate_value)) $(($Total_LBAs_Written)) $(($Total_LBAs_Read)) $(($Disk_Shift))', '$(($Unused_Rsvd_Blk_Cnt_Tot))', '$(($Life_Left_Value)) $(($Logical_Sectors_Written)) $(($Logical_Sectors_Read)) $(($Head_Flying_Hours)) $(($Head_Load_Events)) $(($Num_Reallocated_Logical_Sectors)) $(($Num_Reported_Uncorrectable_Errors)) $(($Pending_Error_Count)) $(($Read_Recovery_Attempts)) $(($Percentage_Used_Endurance_Indicator)) $disk
     #echo "VALUES ('$model_family', '$dev_model', '$sn', '$time', '$overall_health_self_assesment', '$(($user_capacity_bytes))', '$sector_sizes', '$(($Raw_Read_Error_Rate_Value))', '$(($Start_Stop_Count))', '$(($Reallocated_Sector_Ct))', '$(($Seek_Error_Rate_Value))', '$(($Power_On_Hours))', '$(($Power_Cycle_Count))', '$(($Load_Cycle_Count))', '$(($Head_Health_Value))', '$(($Reported_Uncorrect))', '$(($Temperature_Celsius))', '$(($Offline_Uncorrectable))', '$(($Current_Pending_Sector))', '$(($Pressure_Limit))', '$(($Multi_Zone_Error_Rate))', '$(($G_Sense_Error_Rate_value))', '$(($Total_LBAs_Written))', '$(($Total_LBAs_Read))', '$(($Disk_Shift))', '$(($Unused_Rsvd_Blk_Cnt_Tot))', '$(($Life_Left_Value))', '$(($Logical_Sectors_Written))', '$(($Logical_Sectors_Read))', '$(($Head_Flying_Hours))', '$(($Head_Load_Events))', '$(($Num_Reallocated_Logical_Sectors))', '$(($Num_Reported_Uncorrectable_Errors))', '$(($Pending_Error_Count))', '$(($Read_Recovery_Attempts))', '$(($Percentage_Used_Endurance_Indicator))', '$disk');"
-    
     mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASS -D $MYSQL_DB -e "INSERT INTO SMART (Family, Model, SN, Time, Overall_Health, Capacity_Bytes, Sector_sizes, Raw_Read_Error_Rate_Value, Start_Stop_Count, Reallocated_Sector_Ct, Seek_Error_Rate_Value, Power_On_Hours, Power_Cycle_Count, Load_Cycle_Count, Head_Health_Value, Reported_Uncorrectable, Temperature_Celsius, Offline_Uncorrectable, Current_Pending_Sector, Pressure_Limit, Multi_Zone_Error_Rate, G_Sense_Error_Rate_value, Total_LBAs_Written, Total_LBAs_Read, Disk_Shift, Unused_Rsvd_Blk_Cnt_Tot, Life_Left_Value, Logical_Sectors_Written, Logical_Sectors_Read, Head_Flying_Hours, Head_Load_Events, Num_Reallocated_Logical_Sectors, Num_Reported_Uncorrectable_Errors, Pending_Error_Count, Read_Recovery_Attempts, Percentage_Used_Endurance_Indicator, Iface) VALUES ('$model_family', '$dev_model', '$sn', '$time', '$overall_health_self_assesment', '$(($user_capacity_bytes))', '$sector_sizes', '$(($Raw_Read_Error_Rate_Value))', '$(($Start_Stop_Count))', '$(($Reallocated_Sector_Ct))', '$(($Seek_Error_Rate_Value))', '$(($Power_On_Hours))', '$(($Power_Cycle_Count))', '$(($Load_Cycle_Count))', '$(($Head_Health_Value))', '$(($Reported_Uncorrect))', '$(($Temperature_Celsius))', '$(($Offline_Uncorrectable))', '$(($Current_Pending_Sector))', '$(($Pressure_Limit))', '$(($Multi_Zone_Error_Rate))', '$(($G_Sense_Error_Rate_value))', '$(($Total_LBAs_Written))', '$(($Total_LBAs_Read))', '$(($Disk_Shift))', '$(($Unused_Rsvd_Blk_Cnt_Tot))', '$(($Life_Left_Value))', '$(($Logical_Sectors_Written))', '$(($Logical_Sectors_Read))', '$(($Head_Flying_Hours))', '$(($Head_Load_Events))', '$(($Num_Reallocated_Logical_Sectors))', '$(($Num_Reported_Uncorrectable_Errors))', '$(($Pending_Error_Count))', '$(($Read_Recovery_Attempts))', '$(($Percentage_Used_Endurance_Indicator))', '$disk');"
 done
