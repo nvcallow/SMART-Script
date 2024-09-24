@@ -1,5 +1,5 @@
 # SMART-Script
-A bash script to collect SMART Drive Data and send it to a remote MySQL Database
+A bash script to collect SMART Drive Data and send it to a remote MySQL Database on a TrueNas Core setup.
 
 Requires MySQL Client, SmartMonTools, and BASH to be installed
 
